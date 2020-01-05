@@ -1,4 +1,10 @@
 import React from 'react';
+import {
+    Switch,
+    Route,
+    Link,
+    useRouteMatch
+  } from "react-router-dom";
 
 //Weather Icon Logic
 const sunnyURL = "http://icons.iconarchive.com/icons/icons-land/weather/256/Sunny-icon.png";
@@ -39,33 +45,10 @@ class WeatherItem extends React.Component {
         );
     }
 
-    routingLogic = () => {
-        if (this.props.selectedDayId === 0) {
-            return "/monday"
-        }
-        if (this.props.selectedDayId === 1) {
-            return "/tuesday"
-        }
-        if (this.props.selectedDayId === 2) {
-            return "/wednesday"
-        }
-        if (this.props.selectedDayId === 3) {
-            return "/thursday"
-        }
-        if (this.props.selectedDayId === 4) {
-            return "/friday"
-        }
-        if (this.props.selectedDayId === 5) {
-            return "/saturday"
-        }
-        if (this.props.selectedDayId === 6) {
-            return "/sunday"
-        }
-    }
-
-    
     render() {
         let dayId = this.props.weath.id
+
+        let urlString = `/day/${this.props.weath.day}`
         return (
             <div className="weather-item">
                 <div className="day">
@@ -76,12 +59,17 @@ class WeatherItem extends React.Component {
                     <span>&deg;C</span>
                 </div>
                 {this.selectIcon()}
-                
                 <button
                     onClick={() => this.props.onDaySelected(dayId)}
                 >
-                    Select
+                    <Link to={urlString}>
+                        See {this.props.weath.day}
+                    </Link>
                 </button>
+
+                <Switch>
+                    <Route path="/day/:id"/>
+                </Switch>
                 
             </div>
         );
